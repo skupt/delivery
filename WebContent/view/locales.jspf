@@ -1,0 +1,25 @@
+
+<!--
+<!-- Set actual locale 
+<c:choose>
+<c:when test="${not empty locale}">
+	<fmt:setLocale value="${locale}" scope="session"/>
+</c:when>
+<c:otherwise>
+	<fmt:setLocale value="ru_RU" scope="session"/>
+</c:otherwise>
+</c:choose>
+<fmt:setBundle basename="resources.msg"/>
+-->
+
+<!-- Language switcher begin -->
+<form name="locales" action="Controller" method="post">
+	<select name="lang" onchange="this.form.submit()">
+		<option selected disabled><fmt:message key="pageLogin.chooseLang"/></option>
+		<option value="ru"><fmt:message key="pageLogin.ru"/></option>
+		<option value="en"><fmt:message key="pageLogin.en"/></option>
+	</select>
+	<input type="hidden" name="cmd" value="SetLocale"/>
+	<input type="hidden" name="goTo" value="index.jsp">
+</form>
+<!-- end Language switcher -->
