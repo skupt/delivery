@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 
@@ -15,11 +16,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import rozaryonov.delivery.dao.DeliveryConnectionPool;
+import rozaryonov.delivery.dao.impl.LocalityDao;
 import rozaryonov.delivery.dao.impl.PropertyDao;
 import rozaryonov.delivery.dao.impl.TariffDao;
+import rozaryonov.delivery.entities.Locality;
 import rozaryonov.delivery.exceptions.DaoException;
 import rozaryonov.delivery.services.PathFinder;
-import rozaryonov.delivery.services.Srv;
 
 public class DeliveryCost implements ActionCommand {
 	private Logger logger = LogManager.getLogger(DeliveryCost.class.getName());
@@ -74,6 +76,7 @@ public class DeliveryCost implements ActionCommand {
 			Duration duration = Duration.ofHours((long) (distance / truckVelocity + 48));
 			long dur = duration.toDays();
 			double volumeWeight = length * width * height / 1000 * dencity;
+			double volume = length * width * height / 1000;
 			double usedWeight = Double.max(weight, volumeWeight);
 			double targetReceiptCost = targetReceiptDist * usedWeight * shippingRate / 100;
 			double interCityCost = distance * usedWeight * shippingRate /100;
@@ -81,12 +84,22 @@ public class DeliveryCost implements ActionCommand {
 			double insuranceCost = usedWeight * insuranceWorth * insuranceRate;
 			double total = paperwork + targetReceiptCost + interCityCost + targetDeliveryCost + insuranceCost;
 			
+			LocalityDao locDao = new LocalityDao(connection);
+			Locality loadLocality = locDao.findById(departureId).orElseThrow(()-> new DaoException("No Locality found with id=" + departureId));
+			Locality unloadLocality = locDao.findById(arrivalId).orElseThrow(()-> new DaoException("No Locality found with id=" + departureId));
+			
+			session.setAttribute("loadLocality", loadLocality);
+			session.setAttribute("unloadLocality", unloadLocality);
 			session.setAttribute("route", route);
-			session.setAttribute("distance", distance);
+			session.setAttribute("distanceD", distance);
+			session.setAttribute("weightD", weight);
+			session.setAttribute("volumeD", volume);
+			session.setAttribute("totalD", total);
 			session.setAttribute("duration", intFormat.format(dur));
 			session.setAttribute("weight", doubleFormat.format(weight));
 			session.setAttribute("paperwork", doubleFormat.format(paperwork));
 			session.setAttribute("volumeWeight", doubleFormat.format(volumeWeight));
+			session.setAttribute("volume", doubleFormat.format(volume));
 			session.setAttribute("usedWeight", doubleFormat.format(usedWeight));
 			session.setAttribute("targetReceipt", doubleFormat.format(targetReceiptCost));
 			session.setAttribute("interCityCost", doubleFormat.format(interCityCost));
@@ -94,11 +107,11 @@ public class DeliveryCost implements ActionCommand {
 			session.setAttribute("insuranceWorth", doubleFormat.format(insuranceWorth));
 			session.setAttribute("insuranceRate", doubleFormat.format(insuranceRate));
 			session.setAttribute("insuranceCost", doubleFormat.format(insuranceCost));
-			session.setAttribute("total", doubleFormat.format(total));
 			session.setAttribute("totalMoney", currencyFormat.format(total));
 			session.setAttribute("shippingRate", doubleFormat.format(shippingRate));
 			session.setAttribute("targetReceiptDist", doubleFormat.format(targetReceiptDist));
 			session.setAttribute("targetDeliveryDist", doubleFormat.format(targetDeliveryDist));
+			session.setAttribute("date", LocalDateTime.now().plusDays(dur));
 			
 		
 		} catch (ClassNotFoundException | IOException e) {

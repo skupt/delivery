@@ -24,7 +24,7 @@ public class Registration implements ActionCommand {
 		
 		String redirection=null;
 		redirection=request.getParameter("goTo");
-		if (redirection==null) redirection="auth_user/cabinet.jsp";
+		if (redirection==null) redirection="auth_user/view/cabinet.jsp";
 		
 		HttpSession session = request.getSession(true);
 		String login = request.getParameter("login");

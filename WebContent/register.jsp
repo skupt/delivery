@@ -69,7 +69,7 @@
 		</p>
 		
 		<input type="hidden" name="cmd" value="Registration" /> <input
-			type="hidden" name="goTo" value="auth_user/cabinet.jsp" />
+			type="hidden" name="goTo" value="auth_user/view/cabinet.jsp" />
 	</form>
 </body>
 </html>

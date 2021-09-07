@@ -61,10 +61,15 @@
 <p><fmt:message key="pageCosts.insuranceRate"/>: ${insuranceRate}</p>
 </div>
 <p></p>
+
+<!--
 <form name="choseAction" method="get">
 <button type="submit" formaction="/delivery/costs.jsp"><fmt:message key="pageCosts.oneMoreCalculation"/></button>
-<button type="sumbit" formaction="/delivery/make_order.jsp"><fmt:message key="pageCosts.makeOrder"/></button>
+<button type="sumbit" formaction="/delivery/view/make_order.jsp"><fmt:message key="pageCosts.makeOrder"/></button>
 </form>
+-->
+<a href="/delivery/costs.jsp"><fmt:message key="pageCosts.oneMoreCalculation"/></a>
+<a href="/delivery/view/make_order.jsp"><fmt:message key="pageCosts.makeOrder"/></a>
 
 </body>
 </html>

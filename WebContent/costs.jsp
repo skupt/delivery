@@ -36,21 +36,23 @@
 
 <h1><fmt:message key="pageCosts.calculateCostsHeader"/></h1>
 <form name="calcShippingCosts" method="post" action="Controller">
-	
-	<select name="departure">
-		<option selected disabled><fmt:message key="pageCosts.chooseDepartureLocality"/></option>
+	<div>	
+	<p><fmt:message key="pageCosts.chooseDepartureLocality"/></p>
+	<select name="departure" required>
 		<c:forEach var="elem" items="${localities}">
 			<option value="${elem.id}">${elem.name}</option> 
 		</c:forEach>
 	</select> 
+	</div>
 	
-	<select name="arrival">
-		<option selected disabled><fmt:message key="pageCosts.chooseArrivalLocality"/></option>
+	<div>
+	<p><fmt:message key="pageCosts.chooseArrivalLocality"/></p>
+	<select name="arrival" required>
 		<c:forEach var="elem" items="${localities}">
 			<option value="${elem.id}">${elem.name}</option> 
 		</c:forEach>
 	</select> 
-	
+	</div>
 	<p>
 	<input name="length" type="range" min="20" max="120" step="5" value="5" oninput="this.nextElementSibling.value = this.value"/>
 	<output>20</output><fmt:message key="units.cm"/>

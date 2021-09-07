@@ -24,7 +24,7 @@
 <body>
 
 <!-- Language switcher begin -->
-<form name="locales" action="Controller" method="post">
+<form name="locales" action="/delivery/Controller" method="post">
 	<select name="lang" onchange="this.form.submit()">
 		<option selected disabled><fmt:message key="pageLogin.chooseLang"/></option>
 		<option value="ru"><fmt:message key="pageLogin.ru"/></option>
@@ -42,9 +42,14 @@
 <form name="login" action="Controller" method="post">
 <input type="text" name="login"/>
 <input type="password" name="pass"/>
-<input type="submit" name="send"/>
+<input type="submit" name="send" value=<fmt:message key="pageLogin.buttonSubmit"/>/>
 <input type="hidden" name="cmd" value="Login"/>
 <!-- input type="hidden" name="goTo" value="cabinet.jsp"-->
 </form>
+
+<c:url value="register.jsp" var="urlRegister"/>
+<p><a href='${urlRegister}'><fmt:message key="pageLogin.registerLink"/></a>
+<c:url value="index.jsp" var="urlIndex"/>
+<p><a href='${urlIndex}'><fmt:message key="pageLogin.goHomePage"/></a>
 </body>
 </html>

@@ -45,7 +45,7 @@ public class Login implements ActionCommand {
 		session.setAttribute("person", person);
 		switch (person.getRole().getName()) {
 		case "user":
-			redirection = "auth_user/cabinet.jsp";
+			redirection = "auth_user/view/cabinet.jsp";
 			break;
 		case "manager":
 			redirection = "manager/cabinet.jsp";

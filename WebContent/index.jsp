@@ -29,10 +29,14 @@
 		<option value="en"><fmt:message key="pageLogin.en"/></option>
 	</select>
 	<input type="hidden" name="cmd" value="SetLocale"/>
-	<input type="hidden" name="goTo" value="login.jsp">
+	<input type="hidden" name="goTo" value="index.jsp">
 </form>
 <!-- end Language switcher -->
 
 <h1>Index page</h1>
+<c:url value="costs.jsp" var="varCost"/>
+<p><a href='${varCost}'><fmt:message key="index.linkCostCalc"/></a></p>
+
+
 </body>
 </html>
