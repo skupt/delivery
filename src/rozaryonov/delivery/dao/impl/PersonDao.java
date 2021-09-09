@@ -1,5 +1,6 @@
 package rozaryonov.delivery.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,9 +22,14 @@ public class PersonDao extends AbstractDao <Person, Long>{
 	private static final String INSERT = "insert into person (login, password, email, name, surname, patronomic, title, role_id) values (?,?,?,?,?,?,?,?)";
 	private static final String FIND_BY_ID = "select login, password, email, name, surname, patronomic, title, role_id  from person where id=?";
 	private static final String FIND_ALL = "select id, login, password, email, name, surname, patronomic, title, role_id from person";
-	private static final String DELETE = "delete from table person where id=?";
+	private static final String DELETE = "delete from person where id=?";
 	private static final String EXIST = "select id from person where id=?";
 	private static final String FIND_BY_LOGIN = "select login, password, email, name, surname, patronomic, title, role_id, id  from person where login=?";
+	private static final String BALANCE = "select sum(amount * vector) as balance " + 
+			"from settlements, settlement_type " + 
+			"where settlment_type_id = settlement_type.id " + 
+			"and person_id = ?; ";
+	private static final String REPLACE_BALANCE = "replace into user_details (person_id, balance) values (?,?)";
 	
 	private static Logger logger = LogManager.getLogger(PersonDao.class.getName());
 
@@ -188,6 +194,29 @@ public class PersonDao extends AbstractDao <Person, Long>{
 		person.setRole(rd.findById(role_id).orElseThrow(()-> new DaoException("Can't find Role for Person while Person findByLogin")));
 		return Optional.ofNullable(person);
 	}
+	
+	public BigDecimal calcAndReplaceBalance(Long person_id) {
+		BigDecimal b = null;
+		try(PreparedStatement ps = connection.prepareStatement(BALANCE)) {
+			ps.setLong(1, person_id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				b = rs.getBigDecimal(1);
+			}
+		} catch (SQLException e) {
+			logger.error("SQLException while PersonDAo.calcAndSetBalane(Person_id)" + e.getMessage());
+		}
+		if (b==null) b=BigDecimal.ZERO;
+		try(PreparedStatement ps = connection.prepareStatement(REPLACE_BALANCE)) {
+			ps.setLong(1, person_id);
+			ps.setBigDecimal(2, b);
+			if (ps.executeUpdate() == 0) throw new DaoException("Balance isn't replaced for person_id:" + person_id);
+		} catch (SQLException e) {
+			logger.error("SQLException while PersonDAo.calcAndSetBalane(Person_id)" + e.getMessage());
+		}
+		return b;
+	}
+	
 	
 	@Override
 	public void close() {

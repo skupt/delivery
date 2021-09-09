@@ -1,6 +1,8 @@
 package rozaryonov.delivery.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.Comparator;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,14 +19,17 @@ import org.apache.logging.log4j.Logger;
 
 import rozaryonov.delivery.dao.DeliveryConnectionPool;
 import rozaryonov.delivery.dao.impl.LocalityDao;
+import rozaryonov.delivery.dao.impl.ShippingDao;
 import rozaryonov.delivery.entities.Locality;
+import rozaryonov.delivery.entities.Shipping;
+import rozaryonov.delivery.services.Pagination;
 
 @WebFilter(
 		filterName = "LocalitiesAttrFilter", 
 		description = "set attr locality where it is necessary", 
 		urlPatterns = { "/login.jsp", "/costs.jsp" }
 		)
-public class LocalityAttrFilter implements Filter {
+public class CommonAttrFilter implements Filter {
 	private static Logger logger = LogManager.getLogger();
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -33,6 +38,7 @@ public class LocalityAttrFilter implements Filter {
 		logger.info("Requested Resource: "+uri);
 		
 		HttpSession session = req.getSession(true);
+
 		Iterable<Locality> localities = null;
 		localities = (Iterable<Locality>) session.getAttribute("localities");
 		if (localities == null) {
@@ -40,7 +46,9 @@ public class LocalityAttrFilter implements Filter {
 			localities = (Iterable<Locality>) localityDao.findAll();
 			session.setAttribute("localities", localities);
 		}
-			chain.doFilter(request, response);
+		
+		
+		chain.doFilter(request, response);
 	}
 
 

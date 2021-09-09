@@ -48,8 +48,8 @@
 </form>
 
 <c:url value="register.jsp" var="urlRegister"/>
-<p><a href='${urlRegister}'><fmt:message key="pageLogin.registerLink"/></a>
+<p><a href="${urlRegister}"><fmt:message key="pageLogin.registerLink"/></a>
 <c:url value="index.jsp" var="urlIndex"/>
-<p><a href='${urlIndex}'><fmt:message key="pageLogin.goHomePage"/></a>
+<p><a href="${urlIndex}"><fmt:message key="pageLogin.goHomePage"/></a>
 </body>
 </html>

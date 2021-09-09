@@ -23,7 +23,7 @@ public class RoleDao extends AbstractDao<Role, Long> {
 	private static final String FIND_BY_ID = "select id, name from role where id=?";
 	private static final String FIND_BY_NAME = "select id, name from role where name=?";
 	private static final String FIND_ALL = "select id, name from role";
-	private static final String DELETE = "delete from table role where id=?";
+	private static final String DELETE = "delete from role where id=?";
 	private static final String EXIST = "select id from role where id=?";
 	private static Logger logger = LogManager.getLogger(RoleDao.class.getName());
 

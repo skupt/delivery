@@ -41,9 +41,9 @@
 	<p><fmt:message key="makeOrder.msgPlsRegBeforeMakeOrder"/></p>
 	<p><fmt:message key="makeOrder.msgInstrAfterRegister"/></p>
 	<c:url value="/register.jsp" var="varReg"/>
-	<a href='${varReg}'><fmt:message key="makeOrder.msgGoRegister"/></a>
+	<a href="${varReg}"><fmt:message key="makeOrder.msgGoRegister"/></a>
 	<c:url value="/login.jsp" var="varLog"/>
-	<a href='${varLog}'><fmt:message key="makeOrder.msgOrLogin"/></a>
+	<a href="${varLog}"><fmt:message key="makeOrder.msgOrLogin"/></a>
 </c:if>
 
 </body>

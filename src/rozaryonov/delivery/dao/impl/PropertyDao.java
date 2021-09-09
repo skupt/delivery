@@ -17,7 +17,7 @@ import rozaryonov.delivery.exceptions.DaoException;
 public class PropertyDao extends AbstractDao<Property, String> {
 	private static final String REPLACE = "replace into properties (id, value) values (?, ?)";
 	private static final String FIND_BY_ID = "select id, value from properties where id=?";
-	private static final String DELETE = "delete from table properties where id=?";
+	private static final String DELETE = "delete from properties where id=?";
 	private static Logger logger = LogManager.getLogger(PropertyDao.class.getName());
 
 	public PropertyDao(Connection connection) {

@@ -48,7 +48,7 @@ public class Login implements ActionCommand {
 			redirection = "auth_user/view/cabinet.jsp";
 			break;
 		case "manager":
-			redirection = "manager/cabinet.jsp";
+			redirection = "manager/view/cabinet.jsp";
 			break;
 		default:
 			redirection = "index.jsp";

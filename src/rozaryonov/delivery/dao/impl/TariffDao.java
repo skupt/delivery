@@ -23,7 +23,7 @@ public class TariffDao extends AbstractDao<Tariff, Long> {
 	private static final String INSERT = "insert into tariff (logistic_config_id, truck_velocity, density, paperwork, targeted_receipt, targeted_delivery, shipping_rate, insurance_worth, insurance_rate) values (?,?,?,?,?,?,?,?,?)";
 	private static final String FIND_BY_ID = "select id, creation_timestamp, logistic_config_id, truck_velocity, density, paperwork, targeted_receipt, targeted_delivery, shipping_rate, insurance_worth, insurance_rate from tariff where id=?";
 	private static final String FIND_ALL = "select id, creation_timestamp, logistic_config_id, truck_velocity, density, paperwork, targeted_receipt, targeted_delivery, shipping_rate, insurance_worth, insurance_rate from tariff";
-	private static final String DELETE = "delete from table tariff where id=?";
+	private static final String DELETE = "delete from tariff where id=?";
 	private static final String EXIST = "select id from tariff where id=?";
 	private static Logger logger = LogManager.getLogger(TariffDao.class.getName());
 

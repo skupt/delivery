@@ -6,20 +6,24 @@ import java.sql.Timestamp;
 public class Shipping {
 	private long id;
 	private Timestamp creationTimestamp;
-	private long personId;
+	//private long personId; //
+	private Person person;
 	private Timestamp downloadDatetime;
-	private long loadLocalityId;
+	//private long loadLocalityId; //
+	private Locality loadLocality;
 	private String shipper;
 	private String downloadAddress;
 	private String consignee;
-	private long unloadLocalityId;
+	//private long unloadLocalityId; //
+	private Locality unloadLocality;
 	private String unloadAddress;
 	private Timestamp unloadingDatetime;
 	private double distance;
 	private double weight;
 	private double volume;
 	private BigDecimal fare;
-	private long shippingStatusId;
+	//private long shippingStatusId; //
+	private ShippingStatus shippingStatus;
 	public long getId() {
 		return id;
 	}
@@ -32,11 +36,11 @@ public class Shipping {
 	public void setCreationTimestamp(Timestamp creationTimestamp) {
 		this.creationTimestamp = creationTimestamp;
 	}
-	public long getPersonId() {
-		return personId;
+	public Person getPerson() {
+		return person;
 	}
-	public void setPersonId(long personId) {
-		this.personId = personId;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 	public Timestamp getDownloadDatetime() {
 		return downloadDatetime;
@@ -44,11 +48,11 @@ public class Shipping {
 	public void setDownloadDatetime(Timestamp downloadDatetime) {
 		this.downloadDatetime = downloadDatetime;
 	}
-	public long getLoadLocalityId() {
-		return loadLocalityId;
+	public Locality getLoadLocality() {
+		return loadLocality;
 	}
-	public void setLoadLocalityId(long loadLocalityId) {
-		this.loadLocalityId = loadLocalityId;
+	public void setLoadLocality(Locality loadLocality) {
+		this.loadLocality = loadLocality;
 	}
 	public String getShipper() {
 		return shipper;
@@ -68,11 +72,11 @@ public class Shipping {
 	public void setConsignee(String consignee) {
 		this.consignee = consignee;
 	}
-	public long getUnloadLocalityId() {
-		return unloadLocalityId;
+	public Locality getUnloadLocality() {
+		return unloadLocality;
 	}
-	public void setUnloadLocalityId(long unloadLocalityId) {
-		this.unloadLocalityId = unloadLocalityId;
+	public void setUnloadLocality(Locality unloadLocality) {
+		this.unloadLocality = unloadLocality;
 	}
 	public String getUnloadAddress() {
 		return unloadAddress;
@@ -110,22 +114,23 @@ public class Shipping {
 	public void setFare(BigDecimal fare) {
 		this.fare = fare;
 	}
-	public long getShippingStatusId() {
-		return shippingStatusId;
+	public ShippingStatus getShippingStatus() {
+		return shippingStatus;
 	}
-	public void setShippingStatusId(long shippingStatusId) {
-		this.shippingStatusId = shippingStatusId;
+	public void setShippingStatus(ShippingStatus shippingStatus) {
+		this.shippingStatus = shippingStatus;
 	}
 	@Override
 	public String toString() {
-		return "Shipping [id=" + id + ", creationTimestamp=" + creationTimestamp + ", personId=" + personId
-				+ ", downloadDatetime=" + downloadDatetime + ", loadLocalityId=" + loadLocalityId + ", shipper="
-				+ shipper + ", downloadAddress=" + downloadAddress + ", cosignee=" + consignee + ", unloadLocalityId="
-				+ unloadLocalityId + ", unloadAddress=" + unloadAddress + ", unloadingDatetime=" + unloadingDatetime
+		return "Shipping [id=" + id + ", creationTimestamp=" + creationTimestamp + ", person=" + person
+				+ ", downloadDatetime=" + downloadDatetime + ", loadLocality=" + loadLocality + ", shipper=" + shipper
+				+ ", downloadAddress=" + downloadAddress + ", consignee=" + consignee + ", unloadLocality="
+				+ unloadLocality + ", unloadAddress=" + unloadAddress + ", unloadingDatetime=" + unloadingDatetime
 				+ ", distance=" + distance + ", weight=" + weight + ", volume=" + volume + ", fare=" + fare
-				+ ", shippingStatusId=" + shippingStatusId + "]";
+				+ ", shippingStatus=" + shippingStatus + "]";
 	}
 
+	
 	public static class Builder {
 		private Shipping s;
 		
@@ -136,16 +141,16 @@ public class Shipping {
 			s.creationTimestamp = val;
 			return this;
 		}
-		public Builder withPersonId(long val) {
-			s.personId = val;
+		public Builder withPerson(Person val) {
+			s.person = val;
 			return this;
 		}
 		public Builder withDownLoadDateTime(Timestamp val) {
 			s.downloadDatetime = val;
 			return this;
 		}
-		public Builder withLoadLocalityId (long val) {
-			s.loadLocalityId = val;
+		public Builder withLoadLocality(Locality val) {
+			s.loadLocality = val;
 			return this;
 		}
 		public Builder withShipper(String val) {
@@ -160,8 +165,8 @@ public class Shipping {
 			s.consignee = val;
 			return this;
 		}
-		public Builder withUnloadLocalityId(long val) {
-			s.unloadLocalityId = val;
+		public Builder withUnloadLocality(Locality val) {
+			s.unloadLocality = val;
 			return this;
 		}
 		public Builder withUnloadAddress(String val) {
@@ -188,15 +193,12 @@ public class Shipping {
 			s.fare = val;
 			return this;
 		}
-		public Builder withShippingStatusId(long val) {
-			s.shippingStatusId = val;
+		public Builder withShippingStatus(ShippingStatus val) {
+			s.shippingStatus = val;
 			return this;
 		}
 		public Shipping build() {
 			return s;
 		}
-
-		
-				
 	}
 }

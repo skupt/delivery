@@ -19,7 +19,7 @@ public class LocalityDao extends AbstractDao<Locality, Long> {
 	private static final String INSERT = "insert into locality (name) values (?)";
 	private static final String FIND_BY_ID = "select id, name from locality where id=?";
 	private static final String FIND_ALL = "select id, name from locality";
-	private static final String DELETE = "delete from table locality where id=?";
+	private static final String DELETE = "delete from locality where id=?";
 	private static final String EXIST = "select id from locality where id=?";
 	private static Logger logger = LogManager.getLogger(LocalityDao.class.getName());
 	
