@@ -28,7 +28,7 @@ import rozaryonov.delivery.exceptions.DaoException;
 
 public class SettlementsDao extends AbstractDao<Settlements, Long> implements Paginationable<Settlements> {
 	private static final String UPDATE = "update settlements set creation_datetime=?, person_id=?, settlment_type_id=?, amount=? where id = ?";
-	private static final String INSERT = "insert into settlements (datetime, person_id, settlment_type_id, amount) values (?,?,?,?)";
+	private static final String INSERT = "insert into settlements (creation_datetime, person_id, settlment_type_id, amount) values (?,?,?,?)";
 	private static final String FIND_BY_ID = "select id, datetime, person_id, settlment_type_id, amount from settlements where id=?";
 	private static final String FIND_ALL = "select id, datetime, person_id, settlment_type_id, amount from settlements";
 	private static final String DELETE = "delete from settlements where id=?";
@@ -54,7 +54,7 @@ public class SettlementsDao extends AbstractDao<Settlements, Long> implements Pa
 	public Settlements save(Settlements settlements) {
 		if (settlements.getId() == 0) {
 			try (PreparedStatement ps = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);) {
-				//datetime, person_id, settlment_type_id, amount
+				//INSERT = "insert into settlements (creation_datetime, person_id, settlment_type_id, amount) values (?,?,?,?)"
 				ps.setTimestamp(1, Timestamp.valueOf(settlements.getCreationDatetime()));
 				ps.setLong(2, settlements.getPerson().getId());
 				ps.setLong(3, settlements.getSettlementType().getId());
@@ -66,8 +66,9 @@ public class SettlementsDao extends AbstractDao<Settlements, Long> implements Pa
 					}
 				}
 			} catch (SQLException e) {
+				e.printStackTrace();
 				logger.error("SQLException while Settlements save. ", e.getMessage());
-				throw new DaoException("SQLException while Settlements save.", e.getCause());
+				throw new DaoException("SQLException while Settlements save." + e.getCause());
 			}
 
 		} else {

@@ -17,8 +17,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" lnaguage="javascript">
+ $(function()
+  {
+  $("#datepicker").datepicker(
+  {
+  showOn:"both",
+  buttonImage:"image.jpg",
+  dateFormat:"yy-mm-dd",
+  buttonImageOnly:false,
+  minDate:+0, //you do not want to show previous date.
+  maxDate:+0   // you do not want to show next day.
+  });
+  });
+ </script>
 <meta charset="UTF-8">
-<title><fmt:message key="index.title"/></title>
+<title>Index page</title>
 </head>
 <body>
 <!-- Language switcher begin -->
@@ -33,10 +47,11 @@
 </form>
 <!-- end Language switcher -->
 
-<h1><fmt:message key="index.header"/></h1>
+<h1>Index page</h1>
 <c:url value="costs.jsp" var="varCost"/>
 <p><a href="${varCost}"><fmt:message key="index.linkCostCalc"/></a></p>
 
+<input type="text" name="calendar" id="datepicker onclick="datepicker()">
 
 </body>
 </html>

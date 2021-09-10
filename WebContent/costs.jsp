@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Index page</title>
+<title><fmt:message key="pageCosts.calculateCostTitle"/></title>
 </head>
 <body>
 <!-- Language switcher begin -->

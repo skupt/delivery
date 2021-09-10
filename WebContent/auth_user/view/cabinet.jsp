@@ -28,6 +28,8 @@
 <!-- end Language switcher -->
 
 <h1><fmt:message key="userCabinet.headerCabinet"/></h1>
-<a href="/delivery/auth_user/cabinet_resume_order.jsp"><fmt:message key="userCabinet.resumeOrderLink"/></a>
+<a href="/delivery/auth_user/cabinet_resume_order.jsp"><fmt:message key="userCabinet.resumeOrderLink"/></a><br>
+<a href="/delivery/auth_user/invoices_of_user.jsp"><fmt:message key="userCabinet.invoicesUserLink"/></a><br>
+<a href="/delivery/costs.jsp"><fmt:message key="userCabinet.costsCalculation"/></a><br>
 </body>
 </html>

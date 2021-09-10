@@ -49,7 +49,12 @@ public class InvoiceHasShippingDao {
 				throw new DaoException("SQLException while InvoiceHasShipping save.", e.getCause());
 			}
 		}
-		//update shipping status?
+		//update shipping status
+		ShippingDao shippingDao = new ShippingDao(connection);
+		for (Shipping sh1 : shippings) {
+			shippingDao.save(sh1);
+		}
+
 	}
 	
 //	private void deleteInvoiceShippings(long invoiceId) {
