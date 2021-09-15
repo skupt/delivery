@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,14 +36,14 @@ public class CreateInvoices implements ActionCommand {
 		String redirection = null;
 		redirection = request.getParameter("goTo");
 		if (redirection == null)
-			redirection = "manager/create_invoices.jsp";
+			redirection = "manager/view/prg.jsp";
 
 		// login logic here
-		//HttpSession session = request.getSession();
+		//ServletContext ctx = request.getServletContext();
 		String[] shippingIds = request.getParameterValues("shippingId");
-		for (String s : shippingIds) System.out.println("1* Shipping_id [] : " + s); // 1
 		Connection cn = DeliveryConnectionPool.getConnection();
 		ShippingDao shDao = new ShippingDao(cn);
+		//ShippingDao shDao = (ShippingDao) ctx.getAttribute("shippingDao");
 		Set<Shipping> setShippings = new HashSet<>();
 		for (String str : shippingIds) {
 			Shipping s = null;
@@ -53,13 +55,9 @@ public class CreateInvoices implements ActionCommand {
 			}
 			setShippings.add(s);
 		}
-		System.out.println("2* ");
-		System.out.println(setShippings); //2
 		// group shippings by Persons
 		Map<Person, List<Shipping>> personIdShippingsMap = setShippings.stream()
 				.collect(Collectors.groupingBy((Shipping se) -> se.getPerson()));
-		System.out.println("3* ");  //3
-		System.out.println(personIdShippingsMap);
 		// create invoices
 		InvoiceStatusDao inStDao = new InvoiceStatusDao(cn);
 		InvoiceDao invoiceDao = new InvoiceDao(cn);
@@ -80,13 +78,8 @@ public class CreateInvoices implements ActionCommand {
 			inv.setShippings(shippingSet);
 			// save each invoice
 			try {
-				//cn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+				//cn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 				//cn.setAutoCommit(false);
-				// 4
-				System.out.println("4*");
-				System.out.println("inv id: " + inv.getId());
-				inv.getShippings().forEach(System.out::println);
-				// 4
 				
 				// update statuses of shippings
 				for (Shipping shp : shippingSet) {
@@ -97,11 +90,6 @@ public class CreateInvoices implements ActionCommand {
 				
 				//cn.commit();
 				//cn.setAutoCommit(true);
-				//5
-				System.out.println("5*");
-				System.out.println("inv id: " + inv.getId());
-				inv.getShippings().forEach(System.out::println);
-				//5
 				
 			} catch (Exception e) {
 				logger.warn(e.getMessage());
@@ -119,7 +107,12 @@ public class CreateInvoices implements ActionCommand {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		HttpSession session = request.getSession(true);
+		session.setAttribute("goTo", "/delivery/manager/create_invoices.jsp");
+		session.setAttribute("message", "prg.invoiceOk");
 
+		
+		
 		return redirection;
 	}
 

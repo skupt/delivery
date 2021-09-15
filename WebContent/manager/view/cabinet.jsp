@@ -5,16 +5,20 @@
 
 <!-- Set actual locale 2 -->
 <fmt:setLocale value="${locale}" scope="session"/>
-<fmt:setBundle basename="resources.msg"/>
+<fmt:setBundle basename="resources.manager"/>
 <!-- End Set locale 2 -->
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+	<link rel="stylesheet" href="../../css/bootstrap.min.css"/>         
+	<script src="../../js/bootstrap.min.js"></script>       
+
 <title><fmt:message key="managerCabinet.title"/></title>
 </head>
 <body>
+<div class="container">
 <!-- Language switcher begin -->
 <form name="locales" action="/delivery/Controller" method="post">
 	<select name="lang" onchange="this.form.submit()">
@@ -28,7 +32,11 @@
 <!-- end Language switcher -->
 
 <h1><fmt:message key="managerCabinet.headerCabinet"/></h1>
-<a href="/delivery/manager/create_invoices.jsp"><fmt:message key="userCabinet.prepareInvoicesLink"/></a>
+<form action="/delivery/Controller" method="post">
+	<button type="submit" name="cmd" class="btn btn-default navbar-btn" value="CreateInvoicesEnter"><fmt:message key="managerCabinet.createInvoices"/></button>
+	<button type="submit" name="cmd" class="btn btn-default navbar-btn" value="PaymentsEnter"><fmt:message key="managerCabinet.addPayments"/></button>
+</form>
 
+</div>
 </body>
 </html>

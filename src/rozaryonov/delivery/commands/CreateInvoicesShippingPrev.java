@@ -1,16 +1,13 @@
 package rozaryonov.delivery.commands;
 
-import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import rozaryonov.delivery.dao.DeliveryConnectionPool;
-import rozaryonov.delivery.dao.impl.ShippingDao;
 import rozaryonov.delivery.entities.Shipping;
-import rozaryonov.delivery.services.MessageManager;
-import rozaryonov.delivery.services.Pagination;
+import rozaryonov.delivery.repository.impl.ShippingRepo;
+import rozaryonov.delivery.services.Page;
 
 public class CreateInvoicesShippingPrev implements ActionCommand {
 
@@ -23,9 +20,8 @@ public class CreateInvoicesShippingPrev implements ActionCommand {
 
 		// login logic here
 		HttpSession session = request.getSession();
-		Pagination<Shipping, ShippingDao> pagShipping  = (Pagination<Shipping, ShippingDao>) session.getAttribute("paginationShipping");
+		Page<Shipping, ShippingRepo> pagShipping  = (Page<Shipping, ShippingRepo>) session.getAttribute("pageShippingCreateInvoices");
 		List<Shipping> shippingsList = pagShipping.prevPage();
-		//session.removeAttribute("hippingList");
 		session.setAttribute("shippingList", shippingsList);
 		
 		

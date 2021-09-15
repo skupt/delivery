@@ -3,6 +3,7 @@ package rozaryonov.delivery.commands;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -43,9 +44,12 @@ public class Login implements ActionCommand {
 		// set session attribute Person and define auth_user or manager cabinet page
 		HttpSession session = request.getSession(true);
 		session.setAttribute("person", person);
+		ServletContext ctx = request.getServletContext();
 		switch (person.getRole().getName()) {
 		case "user":
 			redirection = "auth_user/view/cabinet.jsp";
+			PersonDao pDao = (PersonDao) ctx.getAttribute("personDao");
+			session.setAttribute("balance", pDao.calcAndReplaceBalance(person.getId()));
 			break;
 		case "manager":
 			redirection = "manager/view/cabinet.jsp";

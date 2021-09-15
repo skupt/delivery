@@ -1,16 +1,11 @@
-package rozaryonov.delivery.controller;
+package rozaryonov.delivery.controller.filter;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Comparator;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
@@ -22,16 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import rozaryonov.delivery.dao.DeliveryConnectionPool;
-import rozaryonov.delivery.dao.impl.InvoiceDao;
-import rozaryonov.delivery.dao.impl.PersonDao;
-
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
-
 import rozaryonov.delivery.entities.Person;
-import rozaryonov.delivery.entities.Invoice;
-import rozaryonov.delivery.services.Pagination;
 
 @WebFilter(filterName = "AuthUserFilter", description = "Provide access to user's resources only for authorized users", urlPatterns = {
 		"/auth_user/*" }, initParams = {
@@ -61,6 +47,7 @@ public class UserFilter implements Filter {
 		} else {
 			// Attr "paginationInvoice" = pagInvoice (manager pagination for input payments
 			// from clients
+			/*
 			Pagination<Invoice, InvoiceDao> pagInvoice = (Pagination<Invoice, InvoiceDao>) session
 					.getAttribute("paginationInvoiceUser");
 			Connection cn = DeliveryConnectionPool.getConnection();
@@ -79,7 +66,7 @@ public class UserFilter implements Filter {
 			PersonDao pDao = new PersonDao(cn);
 			session.setAttribute("balance", pDao.calcAndReplaceBalance(person.getId()));
 			pDao.close();
-
+			*/
 			chain.doFilter(request, response);
 		}
 	}

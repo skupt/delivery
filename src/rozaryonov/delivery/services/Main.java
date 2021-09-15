@@ -1,25 +1,68 @@
 package rozaryonov.delivery.services;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
 
 import rozaryonov.delivery.dao.ConnectionFactory;
 import rozaryonov.delivery.dao.ConnectionWrapper;
 import rozaryonov.delivery.dao.impl.InvoiceHasShippingDao;
 import rozaryonov.delivery.dao.impl.ShippingDao;
+import rozaryonov.delivery.entities.Settlements;
 import rozaryonov.delivery.entities.Shipping;
+import rozaryonov.delivery.repository.impl.SettlementsRepo;
+import rozaryonov.delivery.repository.impl.ShippingRepo;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
+		/*
+		Connection cn = ConnectionFactory.getConnection();
+		 SettlementsRepo repo = new SettlementsRepo(cn);
+		 Page<Settlements, SettlementsRepo> page = new Page(repo, Comparator.comparing((Settlements s) -> s.getCreationDatetime()));
+		 //page.setComparator(Comparator.comparing((Settlements s)-> s.getPerson().getName()));
+		 page.setRowsOnPage(1);
+		 //Page<Shipping, ShippingRepo> page = new Page(repo, after, before, rowsOnPage, predicate, comparator)
+		 page.init();
+		 cn.close();
+		 for (Settlements s : page.nextPage()) {System.out.println(page.getCurPageNum() + ".\t" + SettlStr(s));}
+		 for (Settlements s : page.nextPage()) {System.out.println(page.getCurPageNum() + ".\t" + SettlStr(s));}
+		 for (Settlements s : page.prevPage()) {System.out.println(page.getCurPageNum() + ".\t" + SettlStr(s));}
+		*/
+		
+		
+		/*
+		//ConnectionWrapper.USED_CONNECTION = ConnectionWrapper.CONNECTION_URL_TEST;
+		Connection cn = ConnectionFactory.getConnection();
+		 ShippingRepo repo = new ShippingRepo(cn);
+		 Page<Shipping, ShippingRepo> page = new Page(repo, Comparator.comparing((Shipping s) -> s.getCreationTimestamp()));
+		 //page.setPredicat(e->e.getShippingStatus().getName().equals("just created"));
+		 page.setComparator(Comparator.comparing((Shipping s)-> s.getShipper()));
+		 //Page<Shipping, ShippingRepo> page = new Page(repo, after, before, rowsOnPage, predicate, comparator)
+		 page.init();
+		 cn.close();
+		 for (Shipping s : page.nextPage()) {System.out.println(page.getCurPageNum() + ".\t" + ShipStr(s));}
+		 for (Shipping s : page.nextPage()) {System.out.println(page.getCurPageNum() + ".\t" + ShipStr(s));}
+		 for (Shipping s : page.nextPage()) {System.out.println(page.getCurPageNum() + ".\t" + ShipStr(s));}
+		 System.out.println("----------------");
+		 for (Shipping s : page.prevPage()) {System.out.println(page.getCurPageNum() + ".\t" + ShipStr(s));}
+		 for (Shipping s : page.prevPage()) {System.out.println(page.getCurPageNum() + ".\t" + ShipStr(s));}
+		 */
+		
+		
+		/*
 		Connection cn = ConnectionFactory.getConnection();
 		InvoiceHasShippingDao dao = new InvoiceHasShippingDao(cn);
 		System.out.println(dao.existsById(4L, 1L));
 		
 		//dao.deleteById(4, 1);
 		dao.deleteInvoiceShippings(4);
-		
+		*/
 		
 		/*
 		Connection cn = ConnectionFactory.getConnection();
@@ -81,9 +124,14 @@ public class Main {
 		*/
 		
 	}
-	
+
 	private static String ShipStr(Shipping s) {
-		return s.getCreationTimestamp() +" "+ s.getLoadLocality().getName() + " - " + s.getUnloadLocality().getName() + " : " + s.getShipper();
+		return s.getCreationTimestamp().toLocalDateTime().format(DateTimeFormatter.ISO_DATE) + " " + s.getLoadLocality().getName() + " - " + s.getUnloadLocality().getName()
+				+ " : " + s.getShipper() + " | " + s.getFare() + " | " + s.getShippingStatus().getName();
+	}
+	private static String SettlStr(Settlements s) {
+		return s.getCreationDatetime().format(DateTimeFormatter.ISO_DATE) + " " + s.getPerson().getLogin() + " - "
+				+ " : " + s.getSettlementType().getName() + " | " + s.getAmount();
 	}
 
 }

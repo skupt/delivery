@@ -13,9 +13,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ConnectionWrapper {
-	private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306/delivery?serverTimezone=Europe/Kiev";
+	public static final String CONNECTION_URL = "jdbc:mysql://localhost:3306/delivery?serverTimezone=Europe/Kiev";
+	public static final String CONNECTION_URL_TEST = "jdbc:mysql://localhost:3306/delivery_test?serverTimezone=Europe/Kiev";
 	private static final String USER = "root";
 	private static final String PASSWORD = "w123";
+	public static String USED_CONNECTION = CONNECTION_URL_TEST;
+	
 	private static Logger logger = LogManager.getLogger();
 
 	private static Connection connection;
@@ -26,7 +29,7 @@ public class ConnectionWrapper {
 	public static synchronized Connection getConnection() {
 		try {
 			if (connection == null || connection.isClosed()) {
-				connection = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
+				connection = DriverManager.getConnection(USED_CONNECTION, USER, PASSWORD);
 			}
 		} catch (SQLException e) {
 			logger.error("SQL Exception while getConnection in ConnectionWrapper", e);
