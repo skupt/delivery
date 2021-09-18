@@ -5,36 +5,29 @@
 
 <!-- Set actual locale 2 -->
 <fmt:setLocale value="${locale}" scope="session"/>
-<fmt:setBundle basename="resources.user"/>
+<fmt:setBundle basename="resources.msg"/>
 <!-- End Set locale 2 -->
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>         
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>       
-<title><fmt:message key="userCabinetResOrder.title"/></title>
+<title><fmt:message key="userCabinet.title"/></title>
 </head>
 <body>
 <div class="container">
-		<!-- Language switcher begin -->
-		<form name="locales" action="/delivery/Controller" method="post">
-			<select name="lang" onchange="this.form.submit()"
-				class="btn btn-default dropdown-toggle">
-				<option selected disabled><fmt:message
-						key="fragLang.chooseLang" /></option>
-				<option value="ru"><fmt:message key="fragLang.ru" /></option>
-				<option value="en"><fmt:message key="fragLang.en" /></option>
-			</select>
-			<input type="hidden" name="cmd" value="SetLocale" />
-			<input type="hidden" name="goTo" value="auth_user/cabinet_resume_order.jsp">
-		</form>
-		<!-- end Language switcher -->
 
-
-		<c:import url="auth_user_menu_inner.jsp" charEncoding="utf-8"  />
-
+<!-- Language switcher begin -->
+<form name="locales" action="/delivery/Controller" method="post">
+	<select name="lang" onchange="this.form.submit()">
+		<option selected disabled><fmt:message key="pageLogin.chooseLang"/></option>
+		<option value="ru"><fmt:message key="pageLogin.ru"/></option>
+		<option value="en"><fmt:message key="pageLogin.en"/></option>
+	</select>
+	<input type="hidden" name="cmd" value="SetLocale"/>
+	<input type="hidden" name="goTo" value="auth_user/cabinet_resume_order.jsp">
+</form>
+<!-- end Language switcher -->
 <h1><fmt:message key="userCabinetResOrder.headerResumeOrder"/></h1>
 <c:if test="${empty loadLocality}">
 	<p><fmt:message key="userCabinetResOrder.msgNoUnfinishedOrders"/>
@@ -46,10 +39,8 @@
 <form name="resumeOrder" method="post" action="/delivery/Controller">
 <h2><fmt:message key="userCabinetResOrder.enterData"/></h2>
 <p><fmt:message key="userCabinetResOrder.loadLocality"/></p><p><input type="text" name="load" disabled value="${loadLocality.name}"/></p>
-<div class="panel panel-primary">
-<p><fmt:message key="userCabinetResOrder.shipper"/></p><p><input type="text" class="form-control" name="shipper" pattern="^.{1,45}$" required placeholder="<fmt:message key="userCabinetResOrder.shipper" />" value="${shipper }" /></p>
-<p><fmt:message key="userCabinetResOrder.downloadAddress"/></p><p><input type="text" class="form-control" name="downloadAddress" pattern="^.{1,45}$" required placeholder="<fmt:message key="userCabinetResOrder.downloadAddress" />" value="${downloadAddress }"/></p>
-</div>
+<p><fmt:message key="userCabinetResOrder.shipper"/></p><p><input type="text" name="shipper" pattern="^.{1,45}$" required placeholder=<fmt:message key="userCabinetResOrder.shipper" /> value="${shipper }" /></p>
+<p><fmt:message key="userCabinetResOrder.downloadAddress"/></p><p><input type="text" name="downloadAddress" pattern="^.{1,45}$" required placeholder=<fmt:message key="userCabinetResOrder.downloadAddress" />value="${downloadAddress }"/></p>
 <p><fmt:message key="userCabinetResOrder.downloadDateTime"/></p>
 <p>
 <fmt:message key="userCabinetResOrder.date"/>
@@ -63,17 +54,15 @@
  : <input type="number" name="minute" min="0" max="59" required  value="${date.getMinute() }"/>
 </p>
 <p><fmt:message key="userCabinetResOrder.unloadLocality"/></p><p><input type="text" name="unload" disabled value="${unloadLocality.name}"/></p>
-<div class="panel panel-primary">
-<p><fmt:message key="userCabinetResOrder.consignee"/></p><p><input type="text" class="form-control" name="consignee" pattern="^.{1,45}$" required placeholder="<fmt:message key="userCabinetResOrder.consignee"/>" value="${consignee }" /></p>
-<p><fmt:message key="userCabinetResOrder.unloadAddress"/></p><p><input type="text" class="form-control" name="unloadAddress" pattern="^.{1,45}$" required placeholder="<fmt:message key="userCabinetResOrder.unloadAddress"/>" value="${unloadAddress }" /></p>
-</div>
+<p><fmt:message key="userCabinetResOrder.consignee"/></p><p><input type="text" name="consignee" pattern="^.{1,45}$" required placeholder=<fmt:message key="userCabinetResOrder.consignee"/>value="${consignee }" /></p>
+<p><fmt:message key="userCabinetResOrder.unloadAddress"/></p><p><input type="text" name="unloadAddress" pattern="^.{1,45}$" required placeholder=<fmt:message key="userCabinetResOrder.unloadAddress"/>value="${unloadAddress }" /></p>
 <p><fmt:message key="userCabinetResOrder.distance"/></p><p><input type="text" name="distanceD" disabled value="${distanceD}"/></p>
 <p><fmt:message key="userCabinetResOrder.weight"/></p><p><input type="text" name="usedWeight" disabled value="${weight}"/></p>
 <p><fmt:message key="userCabinetResOrder.volume"/></p><p><input type="text" name="volume" disabled value="${volume}"/></p>
 <p><fmt:message key="userCabinetResOrder.fare"/></p><p><input type="text" name="fare" disabled value="${totalMoney}"/></p>
 <p><input type="hidden" name="cmd" value="ResumeOrder"/></p>
 <p><input type="hidden" name="goTo" value="auth_user/view/cabinet.jsp"></p>
-<p><input type="submit" value="<fmt:message key="userCabinetResOrder.sendOrder"/>"/></p> 
+<p><input type="submit" value=<fmt:message key="userCabinetResOrder.sendOrder"/>/></p> 
 </form>
 </c:if>
 </div>

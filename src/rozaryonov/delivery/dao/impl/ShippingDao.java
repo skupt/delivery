@@ -143,7 +143,8 @@ public class ShippingDao extends AbstractDao<Shipping, Long> implements Paginati
 				//ps.setLong(7, s.getUnloadLocalityId());
 				ps.setLong(7, s.getUnloadLocality().getId());
 				ps.setString(8, s.getUnloadAddress());
-				ps.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+				//ps.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+				ps.setTimestamp(9, s.getUnloadingDatetime());
 				ps.setDouble(10, s.getDistance());
 				ps.setDouble(11, s.getWeight());
 				ps.setDouble(12, s.getVolume());

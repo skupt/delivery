@@ -30,8 +30,8 @@
 <h1><fmt:message key="makeOrder.headerMakeOrder"/></h1>
 
 <c:if test="${not empty person}">
-	<c:url value="/auth_user/cabinet.jsp" var="varRedirect"/>
-	<c:redirect url="/auth_user/view/cabinet.jsp"/>
+	<c:url value="/delivery/auth_user/cabinet.jsp" var="varRedirect"/>
+	<c:redirect url="../auth_user/view/cabinet.jsp"/>
 	<a href="/delivery/auth_user/view/cabinet.jsp"><fmt:message key="makeOrder.PressToGoToCabinet"/></a>
 
 

@@ -24,16 +24,6 @@
 <a href="${goTo}"><fmt:message key="prg.goBack"/></a>
 </div>
 
-<c:set var="pageSettlementsAddPayment" value="${pageableFactory.getPageableForManagerPaymentsPage(6)}" scope="session" />
-<c:set var="settlementsList" value="${pageSettlementsAddPayment.nextPage()}" scope="session" />
-
-<c:set var="pageShippingCreateInvoices" value="${pageableFactory.getPageableForInvoiceCreationPage(6)}" scope="session" />
-<c:set var="shippingList" value="${pageShippingCreateInvoices.nextPage()}" scope="session" />
-
-<c:set var="pageShippingFinish" value="${pageableFactory.getPageableForShippingFinishPage(6)}" scope="session" />
-<c:set var="shippingListFinish" value="${pageShippingFinish.nextPage()}" scope="session" />
-
-
 </div>
 </body>
 </html>

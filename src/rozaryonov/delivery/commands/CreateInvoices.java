@@ -78,8 +78,8 @@ public class CreateInvoices implements ActionCommand {
 			inv.setShippings(shippingSet);
 			// save each invoice
 			try {
-				//cn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-				//cn.setAutoCommit(false);
+				cn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+				cn.setAutoCommit(false);
 				
 				// update statuses of shippings
 				for (Shipping shp : shippingSet) {
@@ -88,8 +88,8 @@ public class CreateInvoices implements ActionCommand {
 				// save invoice and it's shippings 
 				invoiceDao.save(inv);
 				
-				//cn.commit();
-				//cn.setAutoCommit(true);
+				cn.commit();
+				cn.setAutoCommit(true);
 				
 			} catch (Exception e) {
 				logger.warn(e.getMessage());

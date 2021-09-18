@@ -9,9 +9,12 @@ import org.apache.logging.log4j.Logger;
 
 import rozaryonov.delivery.dao.ConnectionFactory;
 import rozaryonov.delivery.dao.DeliveryConnectionPool;
+import rozaryonov.delivery.entities.Invoice;
+import rozaryonov.delivery.entities.Person;
 import rozaryonov.delivery.entities.Settlements;
 import rozaryonov.delivery.entities.Shipping;
 import rozaryonov.delivery.exceptions.DaoException;
+import rozaryonov.delivery.repository.impl.InvoiceRepo;
 import rozaryonov.delivery.repository.impl.SettlementsRepo;
 import rozaryonov.delivery.repository.impl.ShippingRepo;
 import rozaryonov.delivery.services.Page;
@@ -20,22 +23,6 @@ public class PageableFactory {
 	private static Logger logger = LogManager.getLogger(PageableFactory.class.getName());
 	private Connection connection;
 	
-	/*
-	public static Page<Shipping, ShippingRepo> getPageableForInvoiceCreationPage(int rowsOnPage) {
-		Connection cn = DeliveryConnectionPool.getConnection();
-		 ShippingRepo repo = new ShippingRepo(cn);
-		 Page<Shipping, ShippingRepo> page = new Page(repo, Comparator.comparing((Shipping s) -> s.getCreationTimestamp()));
-		 //page.setPredicat(e->e.getShippingStatus().getName().equals("just created"));
-		 page.init();
-		 try {
-			cn.close();
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			throw new DaoException(e.getMessage());
-		}
-		return page;
-	}
-	*/
 	public PageableFactory () {};
 	
 	public PageableFactory (Connection connection) {
@@ -43,7 +30,6 @@ public class PageableFactory {
 	}
 	
 	public Page<Shipping, ShippingRepo> getPageableForInvoiceCreationPage(int rowsOnPage) {
-		//Connection cn = DeliveryConnectionPool.getConnection();
 		 ShippingRepo repo = new ShippingRepo(connection);
 		 Page<Shipping, ShippingRepo> page = new Page(repo, Comparator.comparing((Shipping s) -> s.getCreationTimestamp()));
 		 page.setPredicat(e->e.getShippingStatus().getName().equals("just created"));
@@ -52,6 +38,14 @@ public class PageableFactory {
 		 return page;
 	}
 	
+	public Page<Shipping, ShippingRepo> getPageableForShippingFinishPage(int rowsOnPage) {
+		 ShippingRepo repo = new ShippingRepo(connection);
+		 Page<Shipping, ShippingRepo> page = new Page(repo, Comparator.comparing((Shipping s) -> s.getCreationTimestamp()));
+		 page.setPredicat(e->e.getShippingStatus().getName().equals("delivering"));
+		 page.init();
+
+		 return page;
+	}
 	public Page<Settlements, SettlementsRepo> getPageableForManagerPaymentsPage (int rowsOnPage) {
 		 SettlementsRepo repo = new SettlementsRepo(connection);
 		 Page<Settlements, SettlementsRepo> page = new Page(repo, Comparator.comparing((Settlements s) -> s.getCreationDatetime()));
@@ -61,6 +55,15 @@ public class PageableFactory {
 		 return page;
 	}
 
+	public Page<Invoice, InvoiceRepo> getPageableForUserSpendingPage (int rowsOnPage, Person person) {
+		 InvoiceRepo repo = new InvoiceRepo(connection);
+		 Page<Invoice, InvoiceRepo> page = new Page(repo, Comparator.comparing((Invoice s) -> s.getCreationDateTime()));
+		 page.setPredicat((Invoice e)-> (e.getInvoiceStatus().getId()==1)&&(e.getPerson().getId()==person.getId()));
+		 page.init();
+
+		 return page;
+	}
+	
 	
 	public void close() {
 		try {

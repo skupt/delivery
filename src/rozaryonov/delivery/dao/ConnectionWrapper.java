@@ -17,7 +17,7 @@ public class ConnectionWrapper {
 	public static final String CONNECTION_URL_TEST = "jdbc:mysql://localhost:3306/delivery_test?serverTimezone=Europe/Kiev";
 	private static final String USER = "root";
 	private static final String PASSWORD = "w123";
-	public static String USED_CONNECTION = CONNECTION_URL_TEST;
+	public static String USED_CONNECTION = CONNECTION_URL;
 	
 	private static Logger logger = LogManager.getLogger();
 

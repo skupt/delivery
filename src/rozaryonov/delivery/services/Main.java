@@ -3,6 +3,7 @@ package rozaryonov.delivery.services;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
 import java.util.Comparator;
@@ -13,14 +14,40 @@ import rozaryonov.delivery.dao.ConnectionFactory;
 import rozaryonov.delivery.dao.ConnectionWrapper;
 import rozaryonov.delivery.dao.impl.InvoiceHasShippingDao;
 import rozaryonov.delivery.dao.impl.ShippingDao;
+import rozaryonov.delivery.entities.Invoice;
 import rozaryonov.delivery.entities.Settlements;
 import rozaryonov.delivery.entities.Shipping;
+import rozaryonov.delivery.repository.impl.InvoiceRepo;
 import rozaryonov.delivery.repository.impl.SettlementsRepo;
 import rozaryonov.delivery.repository.impl.ShippingRepo;
 
 public class Main {
 
 	public static void main(String[] args) throws SQLException {
+		
+		Connection cn = ConnectionFactory.getConnection();
+		InvoiceRepo repo = new InvoiceRepo(cn);
+//		 List<Invoice> il = repo.findFilterSort(
+//				 Timestamp.valueOf("2000-06-06 10:00:00"), 
+//				 Timestamp.valueOf("2070-06-06 10:00:00"), 
+//				 (e)-> true, 
+//				 Comparator.comparing((Invoice s) -> s.getId()));
+//		 for (Invoice in : il) System.out.println(InvStr(in));
+		 Page<Invoice, InvoiceRepo> page = new Page(repo, Comparator.comparing((Invoice s) -> s.getCreationDateTime().toLocalDateTime()));
+		 //page.setComparator(Comparator.comparing((Settlements s)-> s.getPerson().getName()));
+		 page.setRowsOnPage(10);
+		 //Page<Shipping, ShippingRepo> page = new Page(repo, after, before, rowsOnPage, predicate, comparator);
+		 page.init();
+		 cn.close();
+		 for (Invoice s : page.nextPage()) {System.out.println(page.getCurPageNum() + ".\t" + InvStr(s));}
+		 System.out.println("*********");
+		 for (Invoice s : page.prevPage()) {System.out.println(page.getCurPageNum() + ".\t" + InvStr(s));}
+		 System.out.println("*********");
+		 for (Invoice s : page.prevPage()) {System.out.println(page.getCurPageNum() + ".\t" + InvStr(s));}
+		 System.out.println("*********");
+		 for (Invoice s : page.prevPage()) {System.out.println(page.getCurPageNum() + ".\t" + InvStr(s));}
+		 System.out.println("*********");
+		
 		/*
 		Connection cn = ConnectionFactory.getConnection();
 		 SettlementsRepo repo = new SettlementsRepo(cn);
@@ -132,6 +159,11 @@ public class Main {
 	private static String SettlStr(Settlements s) {
 		return s.getCreationDatetime().format(DateTimeFormatter.ISO_DATE) + " " + s.getPerson().getLogin() + " - "
 				+ " : " + s.getSettlementType().getName() + " | " + s.getAmount();
+	}
+
+	private static String InvStr(Invoice s) {
+		return s.getCreationDateTime().toLocalDateTime().format(DateTimeFormatter.ISO_DATE) + " " + s.getPerson().getLogin() + " - "
+				+ " : " + s.getInvoiceStatus().getName() + " | " + s.getSum();
 	}
 
 }

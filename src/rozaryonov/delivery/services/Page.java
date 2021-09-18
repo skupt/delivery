@@ -2,6 +2,7 @@ package rozaryonov.delivery.services;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -67,6 +68,8 @@ public class Page <T, R extends Pageable<T>>{
 		
 	}
 	public List<T> nextPage() {
+		if (daoList==null) return new ArrayList<T>();
+		if (daoList.size()==0) return daoList;
 		if (curPageNum*rowsOnPage < totalRows) curPageNum += 1; 
 		int begin = (curPageNum-1)*rowsOnPage;
 		int end = curPageNum*rowsOnPage;
@@ -75,6 +78,8 @@ public class Page <T, R extends Pageable<T>>{
 	}
 
 	public List<T> prevPage() {
+		if (daoList==null) return new ArrayList<T>();
+		if (daoList.size()==0) return daoList;
 		if (curPageNum>1) curPageNum -= 1; 
 		int begin = (curPageNum-1)*rowsOnPage;
 		int end = curPageNum*rowsOnPage;

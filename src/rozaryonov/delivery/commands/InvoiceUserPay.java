@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,16 +32,19 @@ import rozaryonov.delivery.entities.Settlements;
 import rozaryonov.delivery.entities.Shipping;
 import rozaryonov.delivery.entities.ShippingStatus;
 import rozaryonov.delivery.exceptions.DaoException;
+import rozaryonov.delivery.repository.PageableFactory;
+import rozaryonov.delivery.repository.impl.InvoiceRepo;
+import rozaryonov.delivery.services.Page;
 
-public class PayInvoice implements ActionCommand {
-	private Logger logger = LogManager.getLogger(PayInvoice .class.getName());
+public class InvoiceUserPay implements ActionCommand {
+	private Logger logger = LogManager.getLogger(InvoiceUserPay .class.getName());
 
 	@Override
 	public String execute(HttpServletRequest request) {
 		String redirection = null;
 		redirection = request.getParameter("goTo");
 		if (redirection == null)
-			redirection = "auth_user/invoices_of_user.jsp";
+			redirection = "auth_user/view/prg.jsp";
 
 		// login logic here
 		HttpSession session = request.getSession();
@@ -54,9 +58,9 @@ public class PayInvoice implements ActionCommand {
 		ShippingStatusDao ssDao = new ShippingStatusDao(cn);
 		Invoice i = invDao.findById(invoiceId).orElseThrow(() -> new DaoException("No Invoice while PayInvoice cmd."));
 		// dangerous operation
-		//Person curPerson = (Person) request.getSession().getAttribute("person");
-		Person curPerson = i.getPerson();
-		System.out.println("PayInv. person: " + curPerson);
+		Person curPerson = (Person) request.getSession().getAttribute("person");
+		//Person curPerson = i.getPerson();
+		//System.out.println("PayInv. person: " + curPerson);
 		BigDecimal balance = pDao.calcAndReplaceBalance(curPerson.getId());
 		BigDecimal sum = i.getSum();
 		// prepare money spending (settlement)
@@ -74,18 +78,18 @@ public class PayInvoice implements ActionCommand {
 			cn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 			cn.setAutoCommit(false);
 			sDao.save(paym);
-			System.out.println("Pay invoice: payment saved");
+			//System.out.println("Pay invoice: payment saved");
 			pDao.calcAndReplaceBalance(curPerson.getId());
-			System.out.println("Pay invoice: balance updated");
+			//System.out.println("Pay invoice: balance updated");
 			i.setInvoiceStatus(
 					isDao.findById(2L).orElseThrow(() -> new DaoException("No InvpoceStatus found for id=2")));
 			ShippingStatus delivering  = ssDao.findById(4L).orElseThrow(()-> new DaoException("No ShippingStatus found"));
 			for (Shipping shp : i.getShippings()) {
 				shp.setShippingStatus(delivering);
 			}
-			System.out.println("pay invoice: invoice before save: " + i);
+			//System.out.println("pay invoice: invoice before save: " + i);
 			invDao.save(i);
-			System.out.println("Pay invoice: invoice statuse chenged to paid");
+			//System.out.println("Pay invoice: invoice statuse chenged to paid");
 			cn.commit();
 			System.out.println("Pay invoice: transaction committed");
 			cn.setAutoCommit(true);
@@ -101,6 +105,13 @@ public class PayInvoice implements ActionCommand {
 				}
 			}
 
+			ServletContext ctx = session.getServletContext();					
+			PageableFactory pageableFactory = (PageableFactory) ctx.getAttribute("pageableFactory");
+			Person person = (Person) session.getAttribute("person");
+			Page<Invoice, InvoiceRepo> pageInvoicesOfUserToPay = pageableFactory.getPageableForUserSpendingPage(6, person);
+			session.setAttribute("pageInvoicesOfUserToPay", pageInvoicesOfUserToPay);
+			List<Invoice> invoiceList = pageInvoicesOfUserToPay.nextPage();
+			session.setAttribute("invoiceList", invoiceList);
 
 		}
 		try {
@@ -108,6 +119,9 @@ public class PayInvoice implements ActionCommand {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		session.setAttribute("goTo", "/delivery/auth_user/invoices_of_user.jsp");
+		session.setAttribute("message", "prg.spendingOk");
+		
 
 		return redirection;
 	}

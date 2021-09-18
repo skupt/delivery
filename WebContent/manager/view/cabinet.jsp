@@ -32,11 +32,11 @@
 <!-- end Language switcher -->
 
 <h1><fmt:message key="managerCabinet.headerCabinet"/></h1>
-<form action="/delivery/Controller" method="post">
-	<button type="submit" name="cmd" class="btn btn-default navbar-btn" value="CreateInvoicesEnter"><fmt:message key="managerCabinet.createInvoices"/></button>
-	<button type="submit" name="cmd" class="btn btn-default navbar-btn" value="PaymentsEnter"><fmt:message key="managerCabinet.addPayments"/></button>
+<form id="formMenu" action="/delivery/Controller" method="post">
 </form>
-
+	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="CreateInvoicesEnter"><fmt:message key="managerCabinet.createInvoices"/></button>
+	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="PaymentsEnter"><fmt:message key="managerCabinet.addPayments"/></button>
+	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="FinishShippingsEnter"><fmt:message key="managerCabinet.finishShipping"/></button>
 </div>
 </body>
 </html>

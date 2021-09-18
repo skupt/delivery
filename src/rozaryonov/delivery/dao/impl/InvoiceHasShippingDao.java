@@ -28,7 +28,7 @@ public class InvoiceHasShippingDao {
 
 	private static Logger logger = LogManager.getLogger(InvoiceHasShippingDao.class.getName());
 
-	Connection connection;
+	private Connection connection;
 	
 	public InvoiceHasShippingDao(Connection connection) {
 		this.connection=connection;

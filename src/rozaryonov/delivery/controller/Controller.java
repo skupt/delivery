@@ -2,6 +2,7 @@ package rozaryonov.delivery.controller;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.Locale;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -30,16 +31,21 @@ import rozaryonov.delivery.exceptions.DaoException;
 import rozaryonov.delivery.repository.PageableFactory;
 import rozaryonov.delivery.services.PathFinder;
 
-@WebServlet("/Controller")
+@WebServlet( 
+		value="/Controller",
+		loadOnStartup = 1
+		)
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = LogManager.getLogger(Controller.class.getName());
 	
 	public Controller() {
 		super();
+		System.out.println("Controller constructor");
 	}
 
 	public void init(ServletConfig config) throws ServletException {
+		System.out.println("Controller init() begin");
 		ServletContext context = config.getServletContext();
 		Connection connection = ConnectionFactory.getConnection();
 
@@ -76,7 +82,6 @@ public class Controller extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//response.sendRedirect("login.jsp");
 		processRequest(request, response);
 	}
 
@@ -99,10 +104,8 @@ public class Controller extends HttpServlet {
 			}
 		} else {
 			request.setAttribute("errorDescription", "Target page is null after command executing.");
-			request.getRequestDispatcher("view/error.jsp").forward(request, response);
+			request.getRequestDispatcher("/delivery/view/error.jsp").forward(request, response);
 		}
 	}
-	
-	
 
 }
