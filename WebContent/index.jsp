@@ -43,7 +43,7 @@
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li><a href="costs.jsp"><fmt:message key="index.linkCostCalc" /><span class="sr-only">(current)</span></a></li>
-						<li><a href="tariffs.jsp"><fmt:message key="index.linkTariffs" /></a></li>
+						<li><a href="/delivery/Controller?cmd=TariffArchiveEnter"><fmt:message key="index.linkTariffs" /></a></li>
 						<li><a href="login.jsp"><fmt:message key="index.linkLogin" /></a></li>
 						<li><a href="/delivery/Controller?cmd=Logout"><fmt:message key="index.linkLogout" /></a></li>
 						<li><a href="register.jsp"><fmt:message key="index.linkRegister" /></a></li>

@@ -17,14 +17,34 @@ import rozaryonov.delivery.dao.impl.ShippingDao;
 import rozaryonov.delivery.entities.Invoice;
 import rozaryonov.delivery.entities.Settlements;
 import rozaryonov.delivery.entities.Shipping;
+import rozaryonov.delivery.repository.impl.DayReportRepo;
 import rozaryonov.delivery.repository.impl.InvoiceRepo;
 import rozaryonov.delivery.repository.impl.SettlementsRepo;
 import rozaryonov.delivery.repository.impl.ShippingRepo;
+import rozaryonov.delivery.repository.reportable.DayReport;
 
 public class Main {
 
 	public static void main(String[] args) throws SQLException {
 		
+		Connection cn = ConnectionFactory.getConnection();
+		DayReportRepo repo = new DayReportRepo(cn);
+//		 List<Invoice> il = repo.findFilterSort(
+//				 Timestamp.valueOf("2000-06-06 10:00:00"), 
+//				 Timestamp.valueOf("2070-06-06 10:00:00"), 
+//				 (e)-> true, 
+//				 Comparator.comparing((Invoice s) -> s.getId()));
+//		 for (Invoice in : il) System.out.println(InvStr(in));
+		 Page<DayReport, DayReportRepo> page = new Page(repo, Comparator.comparing((DayReport r) -> r.getIndex()));
+		 //page.setComparator(Comparator.comparing((Settlements s)-> s.getPerson().getName()));
+		 page.setRowsOnPage(100);
+		 //Page<Shipping, ShippingRepo> page = new Page(repo, after, before, rowsOnPage, predicate, comparator);
+		 page.init();
+		 cn.close();
+		 for (DayReport s : page.nextPage()) {System.out.println(page.getCurPageNum() + ".\t" + s);}
+		 System.out.println("*********");
+
+		/*
 		Connection cn = ConnectionFactory.getConnection();
 		InvoiceRepo repo = new InvoiceRepo(cn);
 //		 List<Invoice> il = repo.findFilterSort(
@@ -47,7 +67,7 @@ public class Main {
 		 System.out.println("*********");
 		 for (Invoice s : page.prevPage()) {System.out.println(page.getCurPageNum() + ".\t" + InvStr(s));}
 		 System.out.println("*********");
-		
+		*/
 		/*
 		Connection cn = ConnectionFactory.getConnection();
 		 SettlementsRepo repo = new SettlementsRepo(cn);

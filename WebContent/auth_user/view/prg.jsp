@@ -5,7 +5,7 @@
 
 <!-- Set actual locale 2 -->
 <fmt:setLocale value="${locale}" scope="session"/>
-<fmt:setBundle basename="resources.manager"/>
+<fmt:setBundle basename="resources.user"/>
 <!-- End Set locale 2 -->
 
 <!DOCTYPE html>

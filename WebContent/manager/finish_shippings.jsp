@@ -72,7 +72,7 @@
     	  <div class="col-sm-8">
 	        <div class="form-group">
     	      <div class="input-group date" id="datetimepicker1">
-        	    <input type="text" name="unloadDate" class="form-control" />
+        	    <input type="text" name="unloadDate" class="form-control" required />
    				  <span class="input-group-addon">
 	         		<span class="glyphicon glyphicon-calendar"></span>
     	      	  </span>

@@ -8,10 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import rozaryonov.delivery.dao.DeliveryConnectionPool;
-import rozaryonov.delivery.dao.impl.PersonDao;
-import rozaryonov.delivery.entities.Person;
 import rozaryonov.delivery.entities.Settlements;
-import rozaryonov.delivery.repository.PageableFactory;
 import rozaryonov.delivery.repository.impl.SettlementsRepo;
 import rozaryonov.delivery.services.Page;
 

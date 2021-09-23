@@ -37,6 +37,8 @@
 	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="CreateInvoicesEnter"><fmt:message key="managerCabinet.createInvoices"/></button>
 	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="PaymentsEnter"><fmt:message key="managerCabinet.addPayments"/></button>
 	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="FinishShippingsEnter"><fmt:message key="managerCabinet.finishShipping"/></button>
+	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="ManagerReportDay"><fmt:message key="managerCabinet.showDayReport"/></button>
+	<button type="submit" form="formMenu" formmethod="post" name="cmd" class="btn btn-default navbar-btn" value="ManagerReportDirections"><fmt:message key="managerCabinet.showDirectionReport"/></button>
 </div>
 </body>
 </html>
